@@ -20,14 +20,29 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserRegistrationRequest userRegistrationRequest){
-        UserDto userDto =userService.registerUser(userRegistrationRequest);
-        return  new ResponseEntity<>(userDto, HttpStatus.CREATED);
+    public ResponseEntity<?> registerUser(@RequestBody UserRegistrationRequest userRegistrationRequest) {
+        UserDto userDto = userService.registerUser(userRegistrationRequest);
+        return new ResponseEntity<>(userDto, HttpStatus.CREATED);
     }
+
     @GetMapping("/users/{id}")
-    public  ResponseEntity<?> getUser(@PathVariable("id")Long id ){
+    public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
         Optional<User> user = userService.findUserById(id);
-        return new  ResponseEntity<>(user,HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PutMapping("/users/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User updateUser) {
+        User user = userService.updateUser(id, updateUser);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+
+        }
     }
 
 }
+
+
+

@@ -45,6 +45,14 @@ public class UserServiceImpl  implements UserService {
 
     @Override
     public User updateUser(Long id, User updatedUser) {
-        return null;
+        User user = userRepository.findById(id).orElse(null);
+        if(user!= null){
+            user.setUserName(updatedUser.getUserName());
+            user.setEmail(updatedUser.getEmail());
+            user.setSector(updatedUser.getSector());
+            user.setPassword(updatedUser.getPassword());
+            userRepository.save(user);
+        }
+        return user;
     }
 }
